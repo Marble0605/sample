@@ -125,6 +125,7 @@ function showArithmetic() {
     dropZone.dataset.value = data;
   };
 
+  // showArithmetic関数の答え合わせ部分
   document.getElementById('check-btn').addEventListener('click', function() {
     const dropZone = document.getElementById('drop-zone');
     const resultDiv = document.getElementById('result');
@@ -136,6 +137,14 @@ function showArithmetic() {
     } else {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
+    }
+    // 解説を表示
+    if (!document.getElementById('explanation')) {
+      const explanation = document.createElement('div');
+      explanation.id = 'explanation';
+      explanation.className = 'mt-3 alert alert-info';
+      explanation.innerHTML = '【解説】<br>7 + 3 = 10 です。<br>7に3を足すと10になるので、正解は3です。';
+      resultDiv.parentNode.insertBefore(explanation, resultDiv.nextSibling);
     }
     checkBtn.disabled = true;
     nextBtn.style.display = "inline-block";
