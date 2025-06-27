@@ -48,15 +48,25 @@
   <h2 class="mb-4 text-center">教科を選択してください</h2>
 
   <!-- スクロール可能なボタンリスト -->
-  <div class="scroll-box d-grid gap-3">
-    <button id="basic-math-btn" class="btn btn-primary btn-lg w-100 fs-2">基礎数学</button>
-    <button class="btn btn-primary btn-lg w-100 fs-2">線形代数基礎</button>
-    <button class="btn btn-primary btn-lg w-100 fs-2">微分積分基礎</button>
-    <button class="btn btn-primary btn-lg w-100 fs-2">幾何学</button>
-    <button class="btn btn-primary btn-lg w-100 fs-2">線形代数応用</button>
-    <button class="btn btn-primary btn-lg w-100 fs-2">微分積分応用</button>
-    <button class="btn btn-primary btn-lg w-100 fs-2">画像解析</button>
-    <button class="btn btn-primary btn-lg w-100 fs-2">機械学習</button>
+  <div class="row w-100 justify-content-center">
+    <div class="col-md-5 mb-4">
+      <h3 class="text-center">1年生用</h3>
+      <div class="scroll-box d-grid gap-3">
+        <button id="basic-math-btn" class="btn btn-primary btn-lg w-100 fs-2">基礎数学</button>
+        <button class="btn btn-primary btn-lg w-100 fs-2">線形代数基礎</button>
+        <button class="btn btn-primary btn-lg w-100 fs-2">微分積分基礎</button>
+        <button class="btn btn-primary btn-lg w-100 fs-2">幾何学</button>
+      </div>
+    </div>
+    <div class="col-md-5 mb-4">
+      <h3 class="text-center">2年生用</h3>
+      <div class="scroll-box d-grid gap-3">
+        <button class="btn btn-primary btn-lg w-100 fs-2">線形代数応用</button>
+        <button class="btn btn-primary btn-lg w-100 fs-2">微分積分応用</button>
+        <button class="btn btn-primary btn-lg w-100 fs-2">画像解析</button>
+        <button class="btn btn-primary btn-lg w-100 fs-2">機械学習</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -181,6 +191,15 @@ function showArithmetic() {
   document.getElementById('back-to-units').addEventListener('click', function() {
     showBasicMathUnits();
   });
+
+  // 選択肢ボタンにクリックイベントを追加
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const dropZone = document.getElementById('drop-zone');
+      dropZone.textContent = btn.textContent;
+      dropZone.dataset.value = btn.id;
+    });
+  });
 }
 
 // 2問目の例
@@ -255,6 +274,15 @@ function showArithmetic2() {
   document.getElementById('back-to-units').addEventListener('click', function() {
     showBasicMathUnits();
   });
+
+  // 選択肢ボタンにクリックイベントを追加
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const dropZone = document.getElementById('drop-zone');
+      dropZone.textContent = btn.textContent;
+      dropZone.dataset.value = btn.id;
+    });
+  });
 }
 
 // 正弦定理の問題画面
@@ -321,13 +349,22 @@ function showSineTheorem() {
     checkBtn.disabled = true;
     nextBtn.style.display = "inline-block";
   });
-  
-   document.getElementById('next-btn').addEventListener('click', function() {
+
+  document.getElementById('next-btn').addEventListener('click', function() {
     showCosineTheorem2();
   });
 
   document.getElementById('back-to-units').addEventListener('click', function() {
     showBasicMathUnits();
+  });
+
+  // ★ここを追加（クリックでも穴埋めできるように）
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const dropZone = document.getElementById('drop-zone');
+      dropZone.textContent = btn.textContent;
+      dropZone.dataset.value = btn.id;
+    });
   });
 }
 
@@ -443,10 +480,42 @@ function showScore() {
   });
 }
 
-// 最初の画面で基礎数学ボタンにイベントを付与
-document.getElementById('basic-math-btn').addEventListener('click', function() {
-  showBasicMathUnits();
+// ホーム画面のmain-content部分を書き換え
+function showHome() {
+  document.getElementById('main-content').innerHTML = `
+    <h2 class="mb-4 text-center">教科を選択してください</h2>
+    <div class="row w-100 justify-content-center">
+      <div class="col-md-5 mb-4">
+        <h3 class="text-center">1年生用</h3>
+        <div class="scroll-box d-grid gap-3">
+          <button id="basic-math-btn" class="btn btn-primary btn-lg w-100 fs-2">基礎数学</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">線形代数基礎</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">微分積分基礎</button>
+        </div>
+      </div>
+      <div class="col-md-5 mb-4">
+        <h3 class="text-center">2年生用</h3>
+        <div class="scroll-box d-grid gap-3">
+          <button class="btn btn-primary btn-lg w-100 fs-2">幾何学</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">線形代数応用</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">微分積分応用</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">画像解析</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">機械学習</button>
+        </div>
+      </div>
+    </div>
+  `;
+  // イベントリスナー再設定
+  document.getElementById('basic-math-btn').addEventListener('click', function() {
+    showBasicMathUnits();
+  });
+}
+
+// ページ読み込み時にホーム画面を表示
+window.addEventListener('DOMContentLoaded', function() {
+  showHome();
 });
+
 document.getElementById('nav-score').addEventListener('click', function(e) {
   e.preventDefault();
   showScore();
