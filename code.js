@@ -249,11 +249,14 @@ function showSineTheorem() {
     if(dropZone.textContent === "b") {
       resultDiv.textContent = "正解です！";
       resultDiv.style.color = "green";
-      // score++ など必要に応じて
+      score++;
+      subjectStats["基礎数学"].correct++;
     } else {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
     }
+    subjectStats["基礎数学"].total++; // どちらでも必ず加算
+    updateScoreRate();
     if (!document.getElementById('explanation')) {
       const explanation = document.createElement('div');
       explanation.id = 'explanation';
@@ -324,13 +327,18 @@ function showCosineTheorem2() {
     const dropZone = document.getElementById('drop-zone');
     const resultDiv = document.getElementById('result');
     const checkBtn = document.getElementById('check-btn');
+    const nextBtn = document.getElementById('next-btn');
     if(dropZone.textContent === "cosC") {
       resultDiv.textContent = "正解です！";
       resultDiv.style.color = "green";
+      score++;
+      subjectStats["基礎数学"].correct++;
     } else {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
     }
+    subjectStats["基礎数学"].total++; // どちらでも必ず加算
+    updateScoreRate();
     if (!document.getElementById('explanation')) {
       const explanation = document.createElement('div');
       explanation.id = 'explanation';
@@ -339,6 +347,12 @@ function showCosineTheorem2() {
       resultDiv.parentNode.insertBefore(explanation, resultDiv.nextSibling);
     }
     checkBtn.disabled = true;
+    nextBtn.style.display = "inline-block";
+  });
+
+  // ★「結果を見る」ボタンで結果発表画面へ
+  document.getElementById('next-btn').addEventListener('click', function() {
+    showResult();
   });
 
   document.getElementById('back-to-units').addEventListener('click', function() {
