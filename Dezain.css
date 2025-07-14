@@ -1,0 +1,30 @@
+body {
+  font-size: 1.25rem;
+}
+.scroll-box {
+  max-height: 50vh;
+  overflow-y: auto;
+  width: 300px;
+}
+#drop-zone {
+  display: inline-block;
+  width: 60px;
+  height: 40px;
+  border: 2px dashed #888;
+  vertical-align: middle;
+  margin: 0 10px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 1.5rem;
+  background: #f8f9fa;
+}
+
+.choice {
+  cursor: pointer;
+  user-select: none;
+}
+
+.alert-info {
+  margin-top: 1rem;
+  font-size: 1rem;
+}

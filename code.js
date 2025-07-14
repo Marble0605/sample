@@ -14,8 +14,6 @@ let subjectStats = {
 
 function updateScoreRate() {
   // 必要なら画面上に反映
-  // console.log("Score:", score);
-  // console.log("Subject Stats:", subjectStats);
 }
 
 // ホーム画面
@@ -43,9 +41,7 @@ function showHome() {
       </div>
     </div>
   `;
-  document.getElementById('basic-math-btn').addEventListener('click', function() {
-    showBasicMathUnits();
-  });
+  document.getElementById('basic-math-btn').addEventListener('click', showBasicMathUnits);
 }
 
 // 基礎数学単元選択
@@ -75,11 +71,7 @@ function showArithmetic() {
     <p>下の選択肢を□にドラッグ＆ドロップしてください。</p>
     <div class="mb-3 fs-4 d-flex align-items-center justify-content-center">
       7 ＋ 
-      <span id="drop-zone"
-            style="display:inline-block;width:60px;height:40px;border:2px dashed #888;vertical-align:middle;margin:0 10px;text-align:center;line-height:40px;font-size:1.5rem;background:#f8f9fa;"
-            ondrop="drop(event)" ondragover="allowDrop(event)">
-        □
-      </span>
+      <span id="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">□</span>
       ＝ 10
     </div>
     <div class="d-flex gap-3 justify-content-center mb-4">
@@ -151,11 +143,7 @@ function showArithmetic2() {
     <p>下の選択肢を□にドラッグ＆ドロップしてください。</p>
     <div class="mb-3 fs-4 d-flex align-items-center justify-content-center">
       5 − 
-      <span id="drop-zone"
-            style="display:inline-block;width:60px;height:40px;border:2px dashed #888;vertical-align:middle;margin:0 10px;text-align:center;line-height:40px;font-size:1.5rem;background:#f8f9fa;"
-            ondrop="drop(event)" ondragover="allowDrop(event)">
-        □
-      </span>
+      <span id="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">□</span>
       ＝ 2
     </div>
     <div class="d-flex gap-3 justify-content-center mb-4">
@@ -229,11 +217,7 @@ function showSineTheorem() {
       <span style="font-size:1.5rem;">三角形ABCにおいて</span><br>
       <span style="font-size:2rem;">
         <span style="color:#1976d2;">a</span> / sinA ＝ 
-        <span id="drop-zone" 
-          style="display:inline-block;width:60px;height:40px;border:2px dashed #888;vertical-align:middle;margin:0 10px;text-align:center;line-height:40px;font-size:1.5rem;background:#f8f9fa;"
-          ondrop="drop(event)" ondragover="allowDrop(event)">
-          □
-        </span>
+        <span id="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">□</span>
         / sinB
       </span>
     </div>
@@ -308,11 +292,7 @@ function showCosineTheorem2() {
       <span style="font-size:1.5rem;">三角形ABCにおいて</span><br>
       <span style="font-size:2rem;">
         <span style="color:#1976d2;">c<sup>2</sup></span> ＝ a<sup>2</sup> ＋ b<sup>2</sup> − 2ab × 
-        <span id="drop-zone"
-          style="display:inline-block;width:60px;height:40px;border:2px dashed #888;vertical-align:middle;margin:0 10px;text-align:center;line-height:40px;font-size:1.5rem;background:#f8f9fa;"
-          ondrop="drop(event)" ondragover="allowDrop(event)">
-          □
-        </span>
+        <span id="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">□</span>
       </span>
     </div>
     <div class="d-flex gap-3 justify-content-center mb-4">
