@@ -13,11 +13,42 @@ let subjectStats = {
 };
 
 function updateScoreRate() {
-  // ここにスコアと正答率を更新する処理を追加
-  console.log("Score:", score);
-  console.log("Subject Stats:", subjectStats);
+  // 必要なら画面上に反映
+  // console.log("Score:", score);
+  // console.log("Subject Stats:", subjectStats);
 }
 
+// ホーム画面
+function showHome() {
+  document.getElementById('main-content').innerHTML = `
+    <h2 class="mb-4 text-center">教科を選択してください</h2>
+    <div class="row w-100 justify-content-center">
+      <div class="col-md-5 mb-4">
+        <h3 class="text-center">1年生用</h3>
+        <div class="scroll-box d-grid gap-3">
+          <button id="basic-math-btn" class="btn btn-primary btn-lg w-100 fs-2">基礎数学</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">線形代数基礎</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">微分積分基礎</button>
+        </div>
+      </div>
+      <div class="col-md-5 mb-4">
+        <h3 class="text-center">2年生用</h3>
+        <div class="scroll-box d-grid gap-3">
+          <button class="btn btn-primary btn-lg w-100 fs-2">幾何学</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">線形代数応用</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">微分積分応用</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">画像解析</button>
+          <button class="btn btn-primary btn-lg w-100 fs-2">機械学習</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('basic-math-btn').addEventListener('click', function() {
+    showBasicMathUnits();
+  });
+}
+
+// 基礎数学単元選択
 function showBasicMathUnits() {
   document.getElementById('main-content').innerHTML = `
     <h2 class="mb-4 text-center">基礎数学</h2>
@@ -31,17 +62,12 @@ function showBasicMathUnits() {
     </div>
     <button class="btn btn-secondary mt-3" id="back-btn">戻る</button>
   `;
-  document.getElementById('back-btn').addEventListener('click', function() {
-    showHome();
-  });
-  document.getElementById('unit-arithmetic').addEventListener('click', function() {
-    showArithmetic();
-  });
-  document.getElementById('unit-sine-theorem')?.addEventListener('click', function() {
-    showSineTheorem();
-  });
+  document.getElementById('back-btn').addEventListener('click', showHome);
+  document.getElementById('unit-arithmetic').addEventListener('click', showArithmetic);
+  document.getElementById('unit-sine-theorem')?.addEventListener('click', showSineTheorem);
 }
 
+// 四則演算1問目
 function showArithmetic() {
   currentQuestion = 1;
   document.getElementById('main-content').innerHTML = `
@@ -105,13 +131,8 @@ function showArithmetic() {
     updateScoreRate();
   });
 
-  document.getElementById('next-btn').addEventListener('click', function() {
-    showArithmetic2();
-  });
-
-  document.getElementById('back-to-units').addEventListener('click', function() {
-    showBasicMathUnits();
-  });
+  document.getElementById('next-btn').addEventListener('click', showArithmetic2);
+  document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
 
   document.querySelectorAll('.choice').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -122,6 +143,7 @@ function showArithmetic() {
   });
 }
 
+// 四則演算2問目
 function showArithmetic2() {
   currentQuestion = 2;
   document.getElementById('main-content').innerHTML = `
@@ -185,13 +207,8 @@ function showArithmetic2() {
     updateScoreRate();
   });
 
-  document.getElementById('next-btn').addEventListener('click', function() {
-    showResult();
-  });
-
-  document.getElementById('back-to-units').addEventListener('click', function() {
-    showBasicMathUnits();
-  });
+  document.getElementById('next-btn').addEventListener('click', showResult);
+  document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
 
   document.querySelectorAll('.choice').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -202,6 +219,7 @@ function showArithmetic2() {
   });
 }
 
+// 正弦定理
 function showSineTheorem() {
   currentQuestion = 1;
   document.getElementById('main-content').innerHTML = `
@@ -255,7 +273,7 @@ function showSineTheorem() {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
     }
-    subjectStats["基礎数学"].total++; // どちらでも必ず加算
+    subjectStats["基礎数学"].total++;
     updateScoreRate();
     if (!document.getElementById('explanation')) {
       const explanation = document.createElement('div');
@@ -268,13 +286,8 @@ function showSineTheorem() {
     nextBtn.style.display = "inline-block";
   });
 
-  document.getElementById('next-btn').addEventListener('click', function() {
-    showCosineTheorem2();
-  });
-
-  document.getElementById('back-to-units').addEventListener('click', function() {
-    showBasicMathUnits();
-  });
+  document.getElementById('next-btn').addEventListener('click', showCosineTheorem2);
+  document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
 
   document.querySelectorAll('.choice').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -285,6 +298,7 @@ function showSineTheorem() {
   });
 }
 
+// 余弦定理
 function showCosineTheorem2() {
   currentQuestion = 2;
   document.getElementById('main-content').innerHTML = `
@@ -337,7 +351,7 @@ function showCosineTheorem2() {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
     }
-    subjectStats["基礎数学"].total++; // どちらでも必ず加算
+    subjectStats["基礎数学"].total++;
     updateScoreRate();
     if (!document.getElementById('explanation')) {
       const explanation = document.createElement('div');
@@ -350,14 +364,8 @@ function showCosineTheorem2() {
     nextBtn.style.display = "inline-block";
   });
 
-  // ★「結果を見る」ボタンで結果発表画面へ
-  document.getElementById('next-btn').addEventListener('click', function() {
-    showResult();
-  });
-
-  document.getElementById('back-to-units').addEventListener('click', function() {
-    showBasicMathUnits();
-  });
+  document.getElementById('next-btn').addEventListener('click', showResult);
+  document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
 
   document.querySelectorAll('.choice').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -368,6 +376,7 @@ function showCosineTheorem2() {
   });
 }
 
+// 結果発表
 function showResult() {
   document.getElementById('main-content').innerHTML = `
     <h2 class="mb-4 text-center">結果発表</h2>
@@ -388,6 +397,7 @@ function showResult() {
   });
 }
 
+// 成績画面
 function showScore() {
   let html = `
     <h2 class="mb-4 text-center">成績</h2>
@@ -407,44 +417,13 @@ function showScore() {
     <button class="btn btn-secondary mt-4" id="back-btn">戻る</button>
   `;
   document.getElementById('main-content').innerHTML = html;
-  document.getElementById('back-btn').addEventListener('click', function() {
-    showHome();
-  });
+  document.getElementById('back-btn').addEventListener('click', showHome);
 }
 
-function showHome() {
-  document.getElementById('main-content').innerHTML = `
-    <h2 class="mb-4 text-center">教科を選択してください</h2>
-    <div class="row w-100 justify-content-center">
-      <div class="col-md-5 mb-4">
-        <h3 class="text-center">1年生用</h3>
-        <div class="scroll-box d-grid gap-3">
-          <button id="basic-math-btn" class="btn btn-primary btn-lg w-100 fs-2">基礎数学</button>
-          <button class="btn btn-primary btn-lg w-100 fs-2">線形代数基礎</button>
-          <button class="btn btn-primary btn-lg w-100 fs-2">微分積分基礎</button>
-        </div>
-      </div>
-      <div class="col-md-5 mb-4">
-        <h3 class="text-center">2年生用</h3>
-        <div class="scroll-box d-grid gap-3">
-          <button class="btn btn-primary btn-lg w-100 fs-2">幾何学</button>
-          <button class="btn btn-primary btn-lg w-100 fs-2">線形代数応用</button>
-          <button class="btn btn-primary btn-lg w-100 fs-2">微分積分応用</button>
-          <button class="btn btn-primary btn-lg w-100 fs-2">画像解析</button>
-          <button class="btn btn-primary btn-lg w-100 fs-2">機械学習</button>
-        </div>
-      </div>
-    </div>
-  `;
-  document.getElementById('basic-math-btn').addEventListener('click', function() {
-    showBasicMathUnits();
-  });
-}
+// 初期化
+window.addEventListener('DOMContentLoaded', showHome);
 
-window.addEventListener('DOMContentLoaded', function() {
-  showHome();
-});
-
+// 成績ボタン
 document.getElementById('nav-score').addEventListener('click', function(e) {
   e.preventDefault();
   showScore();
