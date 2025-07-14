@@ -12,6 +12,9 @@ let subjectStats = {
   "機械学習": { correct: 0, total: 0 }
 };
 
+const arithmeticStats = { correct: 0, total: 2 }; // 四則演算
+const triangleStats = { correct: 0, total: 2 };   // 三角定理（正弦定理＋余弦定理）
+
 function updateScoreRate() {
   // 必要なら画面上に反映
 }
@@ -54,7 +57,7 @@ function showBasicMathUnits() {
       <button class="btn btn-success btn-lg w-100" id="unit-fraction">分数</button>
       <button class="btn btn-success btn-lg w-100" id="unit-decimal">小数</button>
       <button class="btn btn-success btn-lg w-100" id="unit-percentage">百分率</button>
-      <button class="btn btn-success btn-lg w-100" id="unit-sine-theorem">正弦定理</button>
+      <button class="btn btn-success btn-lg w-100" id="unit-sine-theorem">三角定理</button>
     </div>
     <button class="btn btn-secondary mt-3" id="back-btn">戻る</button>
   `;
@@ -106,6 +109,7 @@ function showArithmetic() {
       resultDiv.style.color = "green";
       score++;
       subjectStats["基礎数学"].correct++;
+      arithmeticStats.correct++;
     } else {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
@@ -178,6 +182,7 @@ function showArithmetic2() {
       resultDiv.style.color = "green";
       score++;
       subjectStats["基礎数学"].correct++;
+      arithmeticStats.correct++;
     } else {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
@@ -195,7 +200,9 @@ function showArithmetic2() {
     updateScoreRate();
   });
 
-  document.getElementById('next-btn').addEventListener('click', showResult);
+  document.getElementById('next-btn').addEventListener('click', function() {
+    showResult("四則演算");
+  });
   document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
 
   document.querySelectorAll('.choice').forEach(btn => {
@@ -253,6 +260,7 @@ function showSineTheorem() {
       resultDiv.style.color = "green";
       score++;
       subjectStats["基礎数学"].correct++;
+      triangleStats.correct++;
     } else {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
@@ -270,7 +278,9 @@ function showSineTheorem() {
     nextBtn.style.display = "inline-block";
   });
 
-  document.getElementById('next-btn').addEventListener('click', showCosineTheorem2);
+  document.getElementById('next-btn').addEventListener('click', function() {
+    showCosineTheorem2(); // ← 余弦定理の問題へ進む
+  });
   document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
 
   document.querySelectorAll('.choice').forEach(btn => {
@@ -327,6 +337,7 @@ function showCosineTheorem2() {
       resultDiv.style.color = "green";
       score++;
       subjectStats["基礎数学"].correct++;
+      triangleStats.correct++;
     } else {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
@@ -344,7 +355,9 @@ function showCosineTheorem2() {
     nextBtn.style.display = "inline-block";
   });
 
-  document.getElementById('next-btn').addEventListener('click', showResult);
+  document.getElementById('next-btn').addEventListener('click', function() {
+    showResult("三角定理"); // ← ここで結果発表
+  });
   document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
 
   document.querySelectorAll('.choice').forEach(btn => {
@@ -357,22 +370,34 @@ function showCosineTheorem2() {
 }
 
 // 結果発表
-function showResult() {
+function showResult(category) {
+  let stats;
+  if (category === "四則演算") stats = arithmeticStats;
+  else if (category === "三角定理") stats = triangleStats;
   document.getElementById('main-content').innerHTML = `
     <h2 class="mb-4 text-center">結果発表</h2>
     <div class="alert alert-success fs-1 text-center py-5 border border-3 border-primary" style="font-weight:bold;">
-      あなたの得点は<br>
-      <span style="color:#1976d2; font-size:4rem;">${score} / ${totalQuestions}</span><br>点です！
+      ${category}の得点は<br>
+      <span style="color:#1976d2; font-size:4rem;">${stats.correct} / ${stats.total}</span><br>点です！
     </div>
     <button class="btn btn-primary btn-lg" id="retry-btn">もう一度挑戦する</button>
     <button class="btn btn-secondary btn-lg ms-3" id="back-to-units">単元選択に戻る</button>
   `;
   document.getElementById('retry-btn').addEventListener('click', function() {
-    score = 0;
-    showArithmetic();
+    if (category === "四則演算") {
+      arithmeticStats.correct = 0; // 四則演算だけリセット
+      showArithmetic();
+    } else {
+      triangleStats.correct = 0; // 三角定理だけリセット
+      showSineTheorem();
+    }
   });
   document.getElementById('back-to-units').addEventListener('click', function() {
-    score = 0;
+    if (category === "四則演算") {
+      arithmeticStats.correct = 0; // 四則演算だけリセット
+    } else {
+      triangleStats.correct = 0; // 三角定理だけリセット
+    }
     showBasicMathUnits();
   });
 }
