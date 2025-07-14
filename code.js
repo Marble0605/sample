@@ -15,6 +15,9 @@ let subjectStats = {
 const arithmeticStats = { correct: 0, total: 2 }; // 四則演算
 const triangleStats = { correct: 0, total: 2 };   // 三角定理（正弦定理＋余弦定理）
 
+const basicMathAnswered = [false, false, false, false]; // 四則演算1, 四則演算2, 正弦定理, 余弦定理
+const basicMathTotal = 4; // 問題数（分母）
+
 function updateScoreRate() {
   // 必要なら画面上に反映
 }
@@ -108,12 +111,13 @@ function showArithmetic() {
       resultDiv.textContent = "正解です！";
       resultDiv.style.color = "green";
       score++;
-      subjectStats["基礎数学"].correct++;
-      arithmeticStats.correct++;
-    } else {
-      resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
-      resultDiv.style.color = "red";
+      if (!basicMathAnswered[0]) {
+        arithmeticStats.correct++;
+        subjectStats["基礎数学"].correct++;
+        basicMathAnswered[0] = true;
+      }
     }
+    subjectStats["基礎数学"].total = basicMathTotal; // 分母は固定
     if (!document.getElementById('explanation')) {
       const explanation = document.createElement('div');
       explanation.id = 'explanation';
@@ -123,8 +127,6 @@ function showArithmetic() {
     }
     checkBtn.disabled = true;
     nextBtn.style.display = "inline-block";
-    subjectStats["基礎数学"].total++;
-    updateScoreRate();
   });
 
   document.getElementById('next-btn').addEventListener('click', showArithmetic2);
@@ -181,8 +183,11 @@ function showArithmetic2() {
       resultDiv.textContent = "正解です！";
       resultDiv.style.color = "green";
       score++;
-      subjectStats["基礎数学"].correct++;
-      arithmeticStats.correct++;
+      if (!basicMathAnswered[1]) {
+        arithmeticStats.correct++;
+        subjectStats["基礎数学"].correct++;
+        basicMathAnswered[1] = true;
+      }
     } else {
       resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
       resultDiv.style.color = "red";
@@ -196,8 +201,6 @@ function showArithmetic2() {
     }
     checkBtn.disabled = true;
     nextBtn.style.display = "inline-block";
-    subjectStats["基礎数学"].total++;
-    updateScoreRate();
   });
 
   document.getElementById('next-btn').addEventListener('click', function() {
@@ -259,13 +262,13 @@ function showSineTheorem() {
       resultDiv.textContent = "正解です！";
       resultDiv.style.color = "green";
       score++;
-      subjectStats["基礎数学"].correct++;
       triangleStats.correct++;
-    } else {
-      resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
-      resultDiv.style.color = "red";
+      if (!basicMathAnswered[2]) {
+        subjectStats["基礎数学"].correct++;
+        basicMathAnswered[2] = true;
+      }
     }
-    subjectStats["基礎数学"].total++;
+    subjectStats["基礎数学"].total = basicMathTotal;
     updateScoreRate();
     if (!document.getElementById('explanation')) {
       const explanation = document.createElement('div');
@@ -336,13 +339,13 @@ function showCosineTheorem2() {
       resultDiv.textContent = "正解です！";
       resultDiv.style.color = "green";
       score++;
-      subjectStats["基礎数学"].correct++;
       triangleStats.correct++;
-    } else {
-      resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
-      resultDiv.style.color = "red";
+      if (!basicMathAnswered[3]) {
+        subjectStats["基礎数学"].correct++;
+        basicMathAnswered[3] = true;
+      }
     }
-    subjectStats["基礎数学"].total++;
+    subjectStats["基礎数学"].total = basicMathTotal;
     updateScoreRate();
     if (!document.getElementById('explanation')) {
       const explanation = document.createElement('div');
@@ -410,11 +413,13 @@ function showScore() {
   `;
   for (const subject in subjectStats) {
     const stat = subjectStats[subject];
-    const percent = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
+    // 基礎数学だけ分母を固定
+    const total = subject === "基礎数学" ? basicMathTotal : stat.total;
+    const percent = total > 0 ? Math.round((stat.correct / total) * 100) : 0;
     html += `
       <div class="list-group-item d-flex justify-content-between align-items-center">
         <span>${subject}</span>
-        <span class="badge bg-primary fs-5">${percent}%（${stat.correct} / ${stat.total}）</span>
+        <span class="badge bg-primary fs-5">${percent}%（${stat.correct} / ${total}）</span>
       </div>
     `;
   }
