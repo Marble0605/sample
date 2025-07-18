@@ -85,8 +85,10 @@ function showArithmetic() {
       <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-3">3</div>
       <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-4">4</div>
     </div>
-    <button class="btn btn-primary" id="check-btn">答え合わせ</button>
-    <button class="btn btn-success ms-3" id="next-btn" style="display:none;">次へ</button>
+    <div class="d-flex justify-content-center gap-5 mb-3">
+      <button class="btn btn-primary" id="check-btn">答え合わせ</button>
+      <button class="btn btn-success" id="next-btn" style="display:none;">次へ</button>
+    </div>
     <div id="result" class="mt-3 fs-5"></div>
     <button class="btn btn-secondary mt-3" id="back-to-units">単元選択に戻る</button>
   `;
@@ -238,8 +240,10 @@ function showSineTheorem() {
       <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-c">c</div>
       <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-a">a</div>
     </div>
-    <button class="btn btn-primary" id="check-btn">答え合わせ</button>
-    <button class="btn btn-success ms-3" id="next-btn" style="display:none;">次へ</button>
+    <div class="d-flex justify-content-center gap-5 mb-3">
+      <button class="btn btn-primary" id="check-btn">答え合わせ</button>
+      <button class="btn btn-success" id="next-btn" style="display:none;">次へ</button>
+    </div>
     <div id="result" class="mt-3 fs-5"></div>
     <button class="btn btn-secondary mt-3" id="back-to-units">単元選択に戻る</button>
   `;
@@ -315,8 +319,10 @@ function showCosineTheorem2() {
       <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-cosC">cosC</div>
       <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-cosA">cosA</div>
     </div>
-    <button class="btn btn-primary" id="check-btn">答え合わせ</button>
-    <button class="btn btn-success ms-3" id="next-btn" style="display:none;">結果を見る</button>
+    <div class="d-flex justify-content-center gap-5 mb-3">
+      <button class="btn btn-primary" id="check-btn">答え合わせ</button>
+      <button class="btn btn-success ms-3" id="next-btn" style="display:none;">結果を見る</button>
+    </div>
     <div id="result" class="mt-3 fs-5"></div>
     <button class="btn btn-secondary mt-3" id="back-to-units">単元選択に戻る</button>
   `;
@@ -361,7 +367,242 @@ function showCosineTheorem2() {
   });
 
   document.getElementById('next-btn').addEventListener('click', function() {
-    showResult("三角定理"); // ← ここで結果発表
+    showTriangleQ3(); // ← ここで結果発表
+  });
+  document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
+
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const dropZone = document.getElementById('drop-zone');
+      dropZone.textContent = btn.textContent;
+      dropZone.dataset.value = btn.id;
+    });
+  });
+}
+
+// 三角定理3問目
+function showTriangleQ3() {
+  document.getElementById('main-content').innerHTML = `
+    <h2 class="mb-4 text-center">三角定理（3問目）</h2>
+    <p>下の選択肢を□にドラッグ＆ドロップしてください。</p>
+    <div class="mb-3 fs-4 text-center">
+      <span style="font-size:1.5rem;">三角形ABCにおいて</span><br>
+      <span style="font-size:2rem;">
+        <span style="color:#1976d2;">b<sup>2</sup></span> ＝ a<sup>2</sup> ＋ c<sup>2</sup> − 2ac × 
+        <span id="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">□</span>
+      </span>
+    </div>
+    <div class="d-flex gap-3 justify-content-center mb-4">
+      <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-cosB">cosB</div>
+      <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-sinB">sinB</div>
+      <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-cosA">cosA</div>
+    </div>
+    <div class="d-flex justify-content-center gap-5 mb-3">
+      <button class="btn btn-primary" id="check-btn">答え合わせ</button>
+      <button class="btn btn-success ms-3" id="next-btn" style="display:none;">次へ</button>
+    </div>
+    <div id="result" class="mt-3 fs-5"></div>
+    <button class="btn btn-secondary mt-3" id="back-to-units">単元選択に戻る</button>
+  `;
+
+  window.allowDrop = function(ev) { ev.preventDefault(); };
+  window.drag = function(ev) { ev.dataTransfer.setData("text", ev.target.id); };
+  window.drop = function(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    const choice = document.getElementById(data);
+    const dropZone = document.getElementById("drop-zone");
+    dropZone.textContent = choice.textContent;
+    dropZone.dataset.value = data;
+  };
+
+  document.getElementById('check-btn').addEventListener('click', function() {
+    const dropZone = document.getElementById('drop-zone');
+    const resultDiv = document.getElementById('result');
+    const checkBtn = document.getElementById('check-btn');
+    const nextBtn = document.getElementById('next-btn');
+    if(dropZone.textContent === "cosB") {
+      resultDiv.textContent = "正解です！";
+      resultDiv.style.color = "green";
+      triangleStats.correct++;
+      if (!basicMathAnswered[4]) {
+        subjectStats["基礎数学"].correct++;
+        basicMathAnswered[4] = true;
+      }
+    } else {
+      resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
+      resultDiv.style.color = "red";
+    }
+    subjectStats["基礎数学"].total = basicMathTotal;
+    if (!document.getElementById('explanation')) {
+      const explanation = document.createElement('div');
+      explanation.id = 'explanation';
+      explanation.className = 'mt-3 alert alert-info';
+      explanation.innerHTML = '【解説】<br>余弦定理は <b>b² = a² + c² − 2ac cosB</b> です。<br>したがって、□には <b>cosB</b> が入ります。';
+      resultDiv.parentNode.insertBefore(explanation, resultDiv.nextSibling);
+    }
+    checkBtn.disabled = true;
+    nextBtn.style.display = "inline-block";
+  });
+
+  document.getElementById('next-btn').addEventListener('click', showTriangleQ4);
+  document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
+
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const dropZone = document.getElementById('drop-zone');
+      dropZone.textContent = btn.textContent;
+      dropZone.dataset.value = btn.id;
+    });
+  });
+}
+
+// 三角定理4問目
+function showTriangleQ4() {
+  document.getElementById('main-content').innerHTML = `
+    <h2 class="mb-4 text-center">三角定理（4問目）</h2>
+    <p>下の選択肢を□にドラッグ＆ドロップしてください。</p>
+    <div class="mb-3 fs-4 text-center">
+      <span style="font-size:1.5rem;">三角形ABCにおいて</span><br>
+      <span style="font-size:2rem;">
+        <span style="color:#1976d2;">a / sinA</span> ＝ 
+        <span id="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">□</span>
+        / sinC
+      </span>
+    </div>
+    <div class="d-flex gap-3 justify-content-center mb-4">
+      <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-c">c</div>
+      <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-b">b</div>
+      <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-a">a</div>
+    </div>
+    <div class="d-flex justify-content-center gap-5 mb-3">
+      <button class="btn btn-primary" id="check-btn">答え合わせ</button>
+      <button class="btn btn-success ms-3" id="next-btn" style="display:none;">次へ</button>
+    </div>
+    <div id="result" class="mt-3 fs-5"></div>
+    <button class="btn btn-secondary mt-3" id="back-to-units">単元選択に戻る</button>
+  `;
+
+  window.allowDrop = function(ev) { ev.preventDefault(); };
+  window.drag = function(ev) { ev.dataTransfer.setData("text", ev.target.id); };
+  window.drop = function(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    const choice = document.getElementById(data);
+    const dropZone = document.getElementById("drop-zone");
+    dropZone.textContent = choice.textContent;
+    dropZone.dataset.value = data;
+  };
+
+  document.getElementById('check-btn').addEventListener('click', function() {
+    const dropZone = document.getElementById('drop-zone');
+    const resultDiv = document.getElementById('result');
+    const checkBtn = document.getElementById('check-btn');
+    const nextBtn = document.getElementById('next-btn');
+    if(dropZone.textContent === "c") {
+      resultDiv.textContent = "正解です！";
+      resultDiv.style.color = "green";
+      triangleStats.correct++;
+      if (!basicMathAnswered[5]) {
+        subjectStats["基礎数学"].correct++;
+        basicMathAnswered[5] = true;
+      }
+    } else {
+      resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
+      resultDiv.style.color = "red";
+    }
+    subjectStats["基礎数学"].total = basicMathTotal;
+    if (!document.getElementById('explanation')) {
+      const explanation = document.createElement('div');
+      explanation.id = 'explanation';
+      explanation.className = 'mt-3 alert alert-info';
+      explanation.innerHTML = '【解説】<br>正弦定理は <b>a/sinA = b/sinB = c/sinC</b> です。<br>よって、a/sinA = <b>c</b>/sinC となります。';
+      resultDiv.parentNode.insertBefore(explanation, resultDiv.nextSibling);
+    }
+    checkBtn.disabled = true;
+    nextBtn.style.display = "inline-block";
+  });
+
+  document.getElementById('next-btn').addEventListener('click', showTriangleQ5);
+  document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
+
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const dropZone = document.getElementById('drop-zone');
+      dropZone.textContent = btn.textContent;
+      dropZone.dataset.value = btn.id;
+    });
+  });
+}
+
+// 三角定理5問目
+function showTriangleQ5() {
+  document.getElementById('main-content').innerHTML = `
+    <h2 class="mb-4 text-center">三角定理（5問目）</h2>
+    <p>下の選択肢を□にドラッグ＆ドロップしてください。</p>
+    <div class="mb-3 fs-4 text-center">
+      <span style="font-size:1.5rem;">三角形ABCにおいて</span><br>
+      <span style="font-size:2rem;">
+        <span style="color:#1976d2;">c / sinC</span> ＝ 
+        <span id="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">□</span>
+        / sinA
+      </span>
+    </div>
+    <div class="d-flex gap-3 justify-content-center mb-4">
+      <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-a">a</div>
+      <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-b">b</div>
+      <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-c">c</div>
+    </div>
+    <div class="d-flex justify-content-center gap-5 mb-3">
+      <button class="btn btn-primary" id="check-btn">答え合わせ</button>
+      <button class="btn btn-success ms-3" id="next-btn" style="display:none;">結果を見る</button>
+    </div>
+    <div id="result" class="mt-3 fs-5"></div>
+    <button class="btn btn-secondary mt-3" id="back-to-units">単元選択に戻る</button>
+  `;
+
+  window.allowDrop = function(ev) { ev.preventDefault(); };
+  window.drag = function(ev) { ev.dataTransfer.setData("text", ev.target.id); };
+  window.drop = function(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    const choice = document.getElementById(data);
+    const dropZone = document.getElementById("drop-zone");
+    dropZone.textContent = choice.textContent;
+    dropZone.dataset.value = data;
+  };
+
+  document.getElementById('check-btn').addEventListener('click', function() {
+    const dropZone = document.getElementById('drop-zone');
+    const resultDiv = document.getElementById('result');
+    const checkBtn = document.getElementById('check-btn');
+    const nextBtn = document.getElementById('next-btn');
+    if(dropZone.textContent === "a") {
+      resultDiv.textContent = "正解です！";
+      resultDiv.style.color = "green";
+      triangleStats.correct++;
+      if (!basicMathAnswered[6]) {
+        subjectStats["基礎数学"].correct++;
+        basicMathAnswered[6] = true;
+      }
+    } else {
+      resultDiv.textContent = "不正解です。もう一度考えてみましょう。";
+      resultDiv.style.color = "red";
+    }
+    subjectStats["基礎数学"].total = basicMathTotal;
+    if (!document.getElementById('explanation')) {
+      const explanation = document.createElement('div');
+      explanation.id = 'explanation';
+      explanation.className = 'mt-3 alert alert-info';
+      explanation.innerHTML = '【解説】<br>正弦定理は <b>a/sinA = b/sinB = c/sinC</b> です。<br>よって、c/sinC = <b>a</b>/sinA となります。';
+      resultDiv.parentNode.insertBefore(explanation, resultDiv.nextSibling);
+    }
+    checkBtn.disabled = true;
+    nextBtn.style.display = "inline-block";
+  });
+
+  document.getElementById('next-btn').addEventListener('click', function() {
+    showResult("三角定理");
   });
   document.getElementById('back-to-units').addEventListener('click', showBasicMathUnits);
 
