@@ -157,8 +157,10 @@ function showArithmetic2() {
       <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-2">2</div>
       <div class="choice btn btn-outline-primary fs-4" draggable="true" ondragstart="drag(event)" id="choice-3">3</div>
     </div>
-    <button class="btn btn-primary" id="check-btn">答え合わせ</button>
-    <button class="btn btn-success ms-3" id="next-btn" style="display:none;">結果を見る</button>
+    <div class="d-flex justify-content-center gap-5 mb-3">
+      <button class="btn btn-primary" id="check-btn">答え合わせ</button>
+      <button class="btn btn-success" id="next-btn" style="display:none;">結果を見る</button>
+    </div>
     <div id="result" class="mt-3 fs-5"></div>
     <button class="btn btn-secondary mt-3" id="back-to-units">単元選択に戻る</button>
   `;
